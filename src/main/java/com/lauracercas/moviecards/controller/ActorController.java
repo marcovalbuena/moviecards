@@ -20,26 +20,26 @@ public class ActorController {
         this.actorService = actorService;
     }
 
-    @GetMapping("actors")
+    @GetMapping("/actors")
     public String index(Model model) {
         List<Actor> actors = actorService.getAllActors();
         model.addAttribute("actors", actors);
         return "actors/list";
     }
 
-    @GetMapping("actors/new")
+    @GetMapping("/actors/new")
     public String create(Model model) {
         model.addAttribute("actor", new Actor());
         return "actors/form";
     }
 
-    @PostMapping("actors/save")
+    @PostMapping("/actors/save")
     public String save(@ModelAttribute("actor") Actor actor, Model model) {
         actorService.save(actor);
         return "redirect:/actors";
     }
 
-    @GetMapping("actors/edit/{id}")
+    @GetMapping("/actors/edit/{id}")
     public String edit(@PathVariable("id") int actorId, Model model) {
         Actor actor = actorService.getActorById(actorId);
         model.addAttribute("actor", actor);

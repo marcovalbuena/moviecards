@@ -20,26 +20,26 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("movies")
+    @GetMapping("/movies")
     public String index(Model model) {
         List<Movie> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
         return "movies/list";
     }
 
-    @GetMapping("movies/new")
+    @GetMapping("/movies/new")
     public String create(Model model) {
         model.addAttribute("movie", new Movie());
         return "movies/form";
     }
 
-    @PostMapping("movies/save")
+    @PostMapping("/movies/save")
     public String save(@ModelAttribute("movie") Movie movie, Model model) {
         movieService.save(movie);
         return "redirect:/movies";
     }
 
-    @GetMapping("movies/edit/{id}")
+    @GetMapping("/movies/edit/{id}")
     public String edit(@PathVariable("id") int movieId, Model model) {
         Movie movie = movieService.getMovieById(movieId);
         model.addAttribute("movie", movie);
