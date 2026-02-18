@@ -1,38 +1,45 @@
 package com.lauracercas.moviecards.service.actor;
 
-
 import com.lauracercas.moviecards.model.Actor;
-import com.lauracercas.moviecards.repositories.ActorJPA;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * Autor: Laura Cercas Ramos
- * Proyecto: TFM Integración Continua con GitHub Actions
- * Fecha: 04/06/2024
- */
 @Service
 public class ActorServiceImpl implements ActorService {
 
-    private final ActorJPA actorJPA;
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public ActorServiceImpl(ActorJPA actorJPA) {
-        this.actorJPA = actorJPA;
-    }
+    @Value("${application.service.url}")
+    private String serviceUrl;
 
     @Override
     public List<Actor> getAllActors() {
-        return actorJPA.findAll();
+        String url = serviceUrl + "/actors";
+        Actor[] actors = restTemplate.getForObject(url, Actor[].class);
+        return Arrays.asList(actors != null ? actors : new Actor[0]);
     }
 
     @Override
     public Actor save(Actor actor) {
-        return actorJPA.save(actor);
+        String url = serviceUrl + "/actors";
+        return restTemplate.postForObject(url, actor, Actor.class);
     }
 
     @Override
-    public Actor getActorById(Integer actorId) {
-        return actorJPA.getById(actorId);
+    public Actor getActorById(int actorId) {
+        String url = serviceUrl + "/actors/" + actorId;
+        return restTemplate.getForObject(url, Actor.class);
+    }
+
+    @Override
+    public void deleteActor(int actorId) {
+        String url = serviceUrl + "/actors/" + actorId;
+        restTemplate.delete(url);
     }
 }

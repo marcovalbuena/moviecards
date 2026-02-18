@@ -1,39 +1,45 @@
 package com.lauracercas.moviecards.service.movie;
 
-
 import com.lauracercas.moviecards.model.Movie;
-import com.lauracercas.moviecards.repositories.MovieJPA;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 
-/**
- * Autor: Laura Cercas Ramos
- * Proyecto: TFM Integración Continua con GitHub Actions
- * Fecha: 04/06/2024
- */
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private final MovieJPA movieJPA;
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public MovieServiceImpl(MovieJPA movieJPA) {
-        this.movieJPA = movieJPA;
-    }
-
+    @Value("${application.service.url}")
+    private String serviceUrl;
 
     @Override
     public List<Movie> getAllMovies() {
-        return movieJPA.findAll();
+        String url = serviceUrl + "/movies";
+        Movie[] movies = restTemplate.getForObject(url, Movie[].class);
+        return Arrays.asList(movies != null ? movies : new Movie[0]);
     }
 
     @Override
     public Movie save(Movie movie) {
-        return movieJPA.save(movie);
+        String url = serviceUrl + "/movies";
+        return restTemplate.postForObject(url, movie, Movie.class);
     }
 
     @Override
-    public Movie getMovieById(Integer movieId) {
-        return movieJPA.getById(movieId);
+    public Movie getMovieById(int movieId) {
+        String url = serviceUrl + "/movies/" + movieId;
+        return restTemplate.getForObject(url, Movie.class);
+    }
+
+    @Override
+    public void deleteMovie(int movieId) {
+        String url = serviceUrl + "/movies/" + movieId;
+        restTemplate.delete(url);
     }
 }

@@ -1,39 +1,15 @@
 package com.lauracercas.moviecards.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-
-/**
- * Autor: Laura Cercas Ramos
- * Proyecto: TFM Integración Continua con GitHub Actions
- * Fecha: 04/06/2024
- */
-@Entity
 public class Actor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
     private String name;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date birthDate;
-
+    private String birthDate;
+    private String deadDate;
     private String country;
-
-    @ManyToMany(mappedBy = "actors")
-    private List<Movie> movies;
+    private String wikiUrl;
+    private String image;
 
     public Actor() {
-    }
-
-    public Actor(Integer id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public Integer getId() {
@@ -52,12 +28,20 @@ public class Actor {
         this.name = name;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getDeadDate() {
+        return deadDate;
+    }
+
+    public void setDeadDate(String deadDate) {
+        this.deadDate = deadDate;
     }
 
     public String getCountry() {
@@ -68,24 +52,19 @@ public class Actor {
         this.country = country;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public String getWikiUrl() {
+        return wikiUrl;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setWikiUrl(String wikiUrl) {
+        this.wikiUrl = wikiUrl;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Actor actor = (Actor) o;
-        return Objects.equals(id, actor.id) && Objects.equals(name, actor.name) && Objects.equals(birthDate, actor.birthDate) && Objects.equals(country, actor.country);
+    public String getImage() {
+        return image;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, birthDate, country);
+    public void setImage(String image) {
+        this.image = image;
     }
 }
