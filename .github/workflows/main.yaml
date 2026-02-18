@@ -43,7 +43,7 @@ jobs:
       - name: Deploy to Stage (Pre-Producción)
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'moviecards-pre-valbuenab'
+          app-name: 'moviecards-pre-valbuena'
           publish-profile: ${{ secrets.AZURE_PRE_PUBLISH_PROFILE }}
           package: '*.jar'
 
