@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * Autor: Laura Cercas Ramos
@@ -21,6 +22,9 @@ public class Actor {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate deadDate;
 
     private String country;
 
@@ -57,6 +61,10 @@ public class Actor {
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
+
+    public LocalDate getDeadDate() {return deadDate;}
+
+    public void setDeadDate(LocalDate deadDate) {this.deadDate = deadDate;}
 
     public String getCountry() {
         return country;
