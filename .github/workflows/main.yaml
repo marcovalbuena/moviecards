@@ -43,4 +43,3 @@ jobs:
           app-name: 'moviecards-valbuena'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: '*.jar'
-          # un cambio.
