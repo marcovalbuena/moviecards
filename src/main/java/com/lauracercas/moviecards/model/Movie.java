@@ -1,5 +1,8 @@
 package com.lauracercas.moviecards.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Movie {
     private Integer id;
     private String title;
@@ -11,8 +14,34 @@ public class Movie {
     private String synopsis;
     private String image;
 
+    // Lista de actores que participan en la película
+    private List<Actor> actors = new ArrayList<>();
+
     public Movie() {
     }
+
+    // --- MÉTODOS QUE FALTABAN (Los culpables del error) ---
+
+    public void addActor(Actor actor) {
+        if (this.actors == null) {
+            this.actors = new ArrayList<>();
+        }
+        this.actors.add(actor);
+    }
+
+    public boolean existActorInMovie(Actor actor) {
+        if (this.actors == null) {
+            return false;
+        }
+        for (Actor a : this.actors) {
+            if (a.getId() != null && a.getId().equals(actor.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // --- GETTERS Y SETTERS ESTÁNDAR ---
 
     public Integer getId() {
         return id;
@@ -84,5 +113,13 @@ public class Movie {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
     }
 }
