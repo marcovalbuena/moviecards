@@ -42,21 +42,18 @@ public class ActorController {
         return "actors/form";
     }
 
-    @PostMapping("saveActor")
+    @PostMapping("/saveActor") // Asegúrate de que la ruta coincida con tu formulario HTML
     public String saveActor(@ModelAttribute Actor actor, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "actors/form";
         }
-        Actor actorSaved = actorService.save(actor);
-        if (actor.getId() != null) {
-            model.addAttribute("message", Messages.UPDATED_ACTOR_SUCCESS);
-        } else {
-            model.addAttribute("message", Messages.SAVED_ACTOR_SUCCESS);
-        }
 
-        model.addAttribute("actor", actorSaved);
-        model.addAttribute("title", Messages.EDIT_ACTOR_TITLE);
-        return "actors/form";
+        // Guardamos usando el servicio (que ya configuramos para ignorar errores de respuesta)
+        actorService.save(actor);
+
+        // En lugar de volver al formulario, REDIRIGIMOS a la lista
+        // Esto evita el Error 500 al intentar renderizar el objeto guardado
+        return "redirect:/actors";
     }
 
     @GetMapping("editActor/{actorId}")

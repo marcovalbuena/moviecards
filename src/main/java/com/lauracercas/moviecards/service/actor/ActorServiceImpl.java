@@ -26,12 +26,10 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Actor save(Actor actor) {
-        try {
-            // Enviamos el actor. Si la respuesta da problemas al leerse,
-            // capturamos el error porque el guardado YA se hizo en el servidor.
-            return restTemplate.postForObject(serviceUrl + "/actors", actor, Actor.class);
+        try {restTemplate.postForEntity(serviceUrl + "/actors", actor, Void.class);
+            return actor;
         } catch (Exception e) {
-            return actor; // Devolvemos el actor local si el remoto da problemas de lectura
+            return actor;
         }
     }
 
