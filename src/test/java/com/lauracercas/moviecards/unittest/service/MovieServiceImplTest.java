@@ -1,42 +1,50 @@
 package com.lauracercas.moviecards.unittest.service;
 
 import com.lauracercas.moviecards.model.Movie;
+import com.lauracercas.moviecards.repositories.MovieJPA;
 import com.lauracercas.moviecards.service.movie.MovieServiceImpl;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 
+/**
+ * Autor: Laura Cercas Ramos
+ * Proyecto: TFM Integración Continua con GitHub Actions
+ * Fecha: 04/06/2024
+ */
 class MovieServiceImplTest {
-
     @Mock
-    private RestTemplate template;
-
-    @InjectMocks
+    private MovieJPA movieJPA;
     private MovieServiceImpl sut;
+    private AutoCloseable closeable;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        closeable = openMocks(this);
+        sut = new MovieServiceImpl(movieJPA);
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        closeable.close();
     }
 
     @Test
     public void shouldGetAllMovies() {
-        Movie[] moviesArray = new Movie[2];
-        moviesArray[0] = new Movie();
-        moviesArray[1] = new Movie();
+        List<Movie> movies = new ArrayList<>();
+        movies.add(new Movie());
+        movies.add(new Movie());
 
-        when(template.getForObject(anyString(), eq(Movie[].class))).thenReturn(moviesArray);
+        when(movieJPA.findAll()).thenReturn(movies);
 
         List<Movie> result = sut.getAllMovies();
 
@@ -47,13 +55,14 @@ class MovieServiceImplTest {
     public void shouldGetMovieById() {
         Movie movie = new Movie();
         movie.setId(1);
-        movie.setTitle("Test Movie");
+        movie.setTitle("Sample Movie");
 
-        when(template.getForObject(anyString(), eq(Movie.class))).thenReturn(movie);
+        when(movieJPA.getById(anyInt())).thenReturn(movie);
 
         Movie result = sut.getMovieById(1);
 
-        assertEquals("Test Movie", result.getTitle());
+        assertEquals(1, result.getId());
+        assertEquals("Sample Movie", result.getTitle());
     }
 
     @Test
@@ -61,10 +70,12 @@ class MovieServiceImplTest {
         Movie movie = new Movie();
         movie.setTitle("New Movie");
 
-        when(template.postForObject(anyString(), any(Movie.class), eq(Movie.class))).thenReturn(movie);
+        when(movieJPA.save(movie)).thenReturn(movie);
 
         Movie result = sut.save(movie);
 
         assertEquals("New Movie", result.getTitle());
     }
+
+
 }

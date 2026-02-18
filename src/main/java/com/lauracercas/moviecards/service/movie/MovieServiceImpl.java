@@ -20,26 +20,17 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getAllMovies() {
-        String url = serviceUrl + "/movies";
-        Movie[] movies = restTemplate.getForObject(url, Movie[].class);
+        Movie[] movies = restTemplate.getForObject(serviceUrl + "/movies", Movie[].class);
         return Arrays.asList(movies != null ? movies : new Movie[0]);
     }
 
     @Override
     public Movie save(Movie movie) {
-        String url = serviceUrl + "/movies";
-        return restTemplate.postForObject(url, movie, Movie.class);
+        return restTemplate.postForObject(serviceUrl + "/movies", movie, Movie.class);
     }
 
     @Override
-    public Movie getMovieById(int movieId) {
-        String url = serviceUrl + "/movies/" + movieId;
-        return restTemplate.getForObject(url, Movie.class);
-    }
-
-    @Override
-    public void deleteMovie(int movieId) {
-        String url = serviceUrl + "/movies/" + movieId;
-        restTemplate.delete(url);
+    public Movie getMovieById(Integer id) {
+        return restTemplate.getForObject(serviceUrl + "/movies/" + id, Movie.class);
     }
 }

@@ -20,26 +20,20 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public List<Actor> getAllActors() {
-        String url = serviceUrl + "/actors";
-        Actor[] actors = restTemplate.getForObject(url, Actor[].class);
+        Actor[] actors = restTemplate.getForObject(serviceUrl + "/actors", Actor[].class);
         return Arrays.asList(actors != null ? actors : new Actor[0]);
     }
 
     @Override
     public Actor save(Actor actor) {
-        String url = serviceUrl + "/actors";
-        return restTemplate.postForObject(url, actor, Actor.class);
+        // Si el actor ya tiene ID, es una actualización (PUT), si no, es creación (POST)
+        // Pero para simplificar y que funcione el formulario, usaremos POST que el Backend ya maneja.
+        return restTemplate.postForObject(serviceUrl + "/actors", actor, Actor.class);
     }
 
     @Override
-    public Actor getActorById(int actorId) {
-        String url = serviceUrl + "/actors/" + actorId;
-        return restTemplate.getForObject(url, Actor.class);
+    public Actor getActorById(Integer id) {
+        return restTemplate.getForObject(serviceUrl + "/actors/" + id, Actor.class);
     }
 
-    @Override
-    public void deleteActor(int actorId) {
-        String url = serviceUrl + "/actors/" + actorId;
-        restTemplate.delete(url);
-    }
 }

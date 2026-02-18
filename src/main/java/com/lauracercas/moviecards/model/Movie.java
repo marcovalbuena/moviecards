@@ -1,47 +1,26 @@
 package com.lauracercas.moviecards.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * Autor: Laura Cercas Ramos
+ * Proyecto: TFM Integración Continua con GitHub Actions
+ * Fecha: 04/06/2024
+ */
 public class Movie {
     private Integer id;
     private String title;
-    private Integer year;
+    private Integer releaseYear;
     private Integer duration;
     private String country;
     private String director;
     private String genre;
-    private String synopsis;
-    private String image;
+    private String sinopsis;
 
-    // Lista de actores que participan en la película
-    private List<Actor> actors = new ArrayList<>();
+    private List<Actor> actors;
 
-    public Movie() {
-    }
-
-    // --- MÉTODOS QUE FALTABAN (Los culpables del error) ---
-
-    public void addActor(Actor actor) {
-        if (this.actors == null) {
-            this.actors = new ArrayList<>();
-        }
-        this.actors.add(actor);
-    }
-
-    public boolean existActorInMovie(Actor actor) {
-        if (this.actors == null) {
-            return false;
-        }
-        for (Actor a : this.actors) {
-            if (a.getId() != null && a.getId().equals(actor.getId())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // --- GETTERS Y SETTERS ESTÁNDAR ---
 
     public Integer getId() {
         return id;
@@ -59,12 +38,12 @@ public class Movie {
         this.title = title;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setReleaseYear(Integer year) {
+        this.releaseYear = year;
     }
 
     public Integer getDuration() {
@@ -87,8 +66,8 @@ public class Movie {
         return director;
     }
 
-    public void setDirector(String director) {
-        this.director = director;
+    public void setDirector(String address) {
+        this.director = address;
     }
 
     public String getGenre() {
@@ -99,21 +78,14 @@ public class Movie {
         this.genre = genre;
     }
 
-    public String getSynopsis() {
-        return synopsis;
+    public String getSinopsis() {
+        return sinopsis;
     }
 
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
+    public void setSinopsis(String sinopsis) {
+        this.sinopsis = sinopsis;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public List<Actor> getActors() {
         return actors;
@@ -122,4 +94,29 @@ public class Movie {
     public void setActors(List<Actor> actors) {
         this.actors = actors;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(releaseYear, movie.releaseYear) && Objects.equals(duration, movie.duration) && Objects.equals(country, movie.country) && Objects.equals(director, movie.director) && Objects.equals(genre, movie.genre) && Objects.equals(sinopsis, movie.sinopsis);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, releaseYear, duration, country, director, genre, sinopsis);
+    }
+
+    public void addActor(Actor actor) {
+        if (actor != null) {
+            getActors().add(actor);
+        }
+    }
+
+    public boolean existActorInMovie(Actor actor) {
+        return actors.contains(actor);
+    }
+
+
 }
