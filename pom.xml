@@ -16,6 +16,7 @@
         <java.version>11</java.version>
         <sonar.organization>marcovalbuena</sonar.organization>
         <sonar.projectKey>marcovalbuena_moviecards</sonar.projectKey>
+        <sonar.sources>src/main/java,src/main/resources</sonar.sources>
     </properties>
     <dependencies>
         <dependency>
