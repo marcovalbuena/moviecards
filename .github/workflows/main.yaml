@@ -40,7 +40,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          # Aquí pon el nombre real de tu App de Azure (el del .publishsettings)
           app-name: 'moviecards-valbuena'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: '*.jar'
+          # un cambio.
