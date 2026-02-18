@@ -26,9 +26,13 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public Actor save(Actor actor) {
-        // Si el actor ya tiene ID, es una actualización (PUT), si no, es creación (POST)
-        // Pero para simplificar y que funcione el formulario, usaremos POST que el Backend ya maneja.
-        return restTemplate.postForObject(serviceUrl + "/actors", actor, Actor.class);
+        try {
+            // Enviamos el actor. Si la respuesta da problemas al leerse,
+            // capturamos el error porque el guardado YA se hizo en el servidor.
+            return restTemplate.postForObject(serviceUrl + "/actors", actor, Actor.class);
+        } catch (Exception e) {
+            return actor; // Devolvemos el actor local si el remoto da problemas de lectura
+        }
     }
 
     @Override

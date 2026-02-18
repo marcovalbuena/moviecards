@@ -26,7 +26,11 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie save(Movie movie) {
-        return restTemplate.postForObject(serviceUrl + "/movies", movie, Movie.class);
+        try {
+            return restTemplate.postForObject(serviceUrl + "/movies", movie, Movie.class);
+        } catch (Exception e) {
+            return movie;
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.lauracercas.moviecards.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Objects;
  * Proyecto: TFM Integración Continua con GitHub Actions
  * Fecha: 04/06/2024
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Actor {
     private Integer id;
 

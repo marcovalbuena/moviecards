@@ -3,12 +3,15 @@ package com.lauracercas.moviecards.model;
 
 import java.util.List;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Autor: Laura Cercas Ramos
  * Proyecto: TFM Integración Continua con GitHub Actions
  * Fecha: 04/06/2024
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
     private Integer id;
     private String title;
